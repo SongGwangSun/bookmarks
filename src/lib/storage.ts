@@ -1,7 +1,8 @@
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import type { Bookmark } from "@/types/bookmark";
 
 export async function getBookmarks(): Promise<Bookmark[]> {
+  const supabase = createClient();
   const { data, error } = await supabase
     .from("bookmarks")
     .select("*")
@@ -13,6 +14,7 @@ export async function getBookmarks(): Promise<Bookmark[]> {
 export async function addBookmark(
   bookmark: Omit<Bookmark, "id" | "created_at" | "user_id">
 ): Promise<Bookmark | null> {
+  const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
@@ -26,5 +28,6 @@ export async function addBookmark(
 }
 
 export async function deleteBookmark(id: string): Promise<void> {
+  const supabase = createClient();
   await supabase.from("bookmarks").delete().eq("id", id);
 }

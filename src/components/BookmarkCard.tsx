@@ -1,7 +1,7 @@
 "use client";
 
 import type { Bookmark } from "@/types/bookmark";
-import { tagColor } from "@/components/AddBookmarkForm";
+import { tagColor } from "@/lib/tag-color";
 
 type Props = {
   bookmark: Bookmark;

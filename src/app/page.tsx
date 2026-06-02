@@ -4,9 +4,9 @@ import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import AddBookmarkForm from "@/components/AddBookmarkForm";
 import BookmarkCard from "@/components/BookmarkCard";
-import { tagColor } from "@/components/AddBookmarkForm";
+import { tagColor } from "@/lib/tag-color";
 import { getBookmarks, addBookmark, deleteBookmark } from "@/lib/storage";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import type { Bookmark } from "@/types/bookmark";
 import type { User } from "@supabase/supabase-js";
 
@@ -19,11 +19,13 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
+    const supabase = createClient();
     supabase.auth.getUser().then(({ data }) => setUser(data.user));
     getBookmarks().then(setBookmarks).finally(() => setLoading(false));
   }, []);
 
   async function handleLogout() {
+    const supabase = createClient();
     await supabase.auth.signOut();
     router.push("/login");
   }

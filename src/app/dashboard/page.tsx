@@ -13,6 +13,14 @@ export default async function DashboardPage() {
 
   if (!user) redirect("/login");
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  const isAdmin = profile?.role === "admin";
+
   const { data: bookmarks } = await supabase
     .from("bookmarks")
     .select("*")
@@ -30,14 +38,24 @@ export default async function DashboardPage() {
             <h1 className="text-2xl font-bold text-gray-900 tracking-tight">내 북마크</h1>
             <p className="text-sm text-gray-400 mt-0.5 truncate max-w-xs">{user.email}</p>
           </div>
-          <form action="/auth/signout" method="POST">
-            <button
-              type="submit"
-              className="text-xs text-gray-400 hover:text-red-500 border border-gray-200 hover:border-red-200 rounded-xl px-3 py-1.5 transition-colors"
-            >
-              로그아웃
-            </button>
-          </form>
+          <div className="flex items-center gap-2">
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="text-xs bg-midnight text-white hover:bg-midnight-dark px-3 py-1.5 rounded-xl font-semibold transition-colors"
+              >
+                관리자 패널
+              </Link>
+            )}
+            <form action="/auth/signout" method="POST">
+              <button
+                type="submit"
+                className="text-xs text-gray-400 hover:text-red-500 border border-gray-200 hover:border-red-200 rounded-xl px-3 py-1.5 transition-colors"
+              >
+                로그아웃
+              </button>
+            </form>
+          </div>
         </div>
 
         {/* 새 북마크 추가 버튼 */}

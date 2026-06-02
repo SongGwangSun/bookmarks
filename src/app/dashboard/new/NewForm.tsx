@@ -2,25 +2,19 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
-import { updateBookmarkAction } from "@/app/dashboard/actions";
-import type { Bookmark, Category } from "@/types/bookmark";
+import { addBookmarkAction } from "@/app/dashboard/actions";
+import type { Category } from "@/types/bookmark";
 
 const inputCls =
   "w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-midnight/20 focus:border-midnight transition-colors disabled:bg-gray-50 disabled:text-gray-400";
 const labelCls = "text-xs font-semibold text-gray-500 uppercase tracking-wide";
 
-export default function EditForm({
-  bookmark,
-  categories,
-}: {
-  bookmark: Bookmark;
-  categories: Category[];
-}) {
-  const [url, setUrl] = useState(bookmark.url);
-  const [title, setTitle] = useState(bookmark.title);
-  const [description, setDescription] = useState(bookmark.description);
-  const [tags, setTags] = useState(bookmark.tags.join(", "));
-  const [categoryId, setCategoryId] = useState<string | null>(bookmark.category_id);
+export default function NewForm({ categories }: { categories: Category[] }) {
+  const [url, setUrl] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [tags, setTags] = useState("");
+  const [categoryId, setCategoryId] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState("");
   const [isPending, startTransition] = useTransition();
@@ -42,7 +36,7 @@ export default function EditForm({
 
     const parsedTags = tags.split(",").map((t) => t.trim()).filter(Boolean);
     startTransition(async () => {
-      const result = await updateBookmarkAction(bookmark.id, {
+      const result = await addBookmarkAction({
         url: url.trim(), title: title.trim(),
         description: description.trim(), tags: parsedTags,
         category_id: categoryId,
@@ -60,33 +54,33 @@ export default function EditForm({
       <div className="max-w-xl mx-auto px-4 py-10">
         <div className="flex items-center gap-3 mb-8">
           <Link href="/dashboard" className="flex items-center justify-center w-8 h-8 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition-colors text-gray-400 hover:text-gray-600 shadow-sm">←</Link>
-          <h1 className="text-xl font-bold text-gray-900 tracking-tight">북마크 수정</h1>
+          <h1 className="text-xl font-bold text-gray-900 tracking-tight">새 북마크 추가</h1>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-card p-7 flex flex-col gap-5">
           <div className="flex flex-col gap-1.5">
             <label className={labelCls}>URL <span className="text-red-400 normal-case tracking-normal">*</span></label>
-            <input type="url" value={url} disabled={isPending}
+            <input type="url" placeholder="https://example.com" value={url} disabled={isPending}
               onChange={(e) => { setUrl(e.target.value); clearError("url"); }} className={inputCls} />
             {fieldErrors.url && <p className="text-xs text-red-500">{fieldErrors.url}</p>}
           </div>
 
           <div className="flex flex-col gap-1.5">
             <label className={labelCls}>제목 <span className="text-red-400 normal-case tracking-normal">*</span></label>
-            <input type="text" value={title} disabled={isPending}
+            <input type="text" placeholder="페이지 제목을 입력하세요" value={title} disabled={isPending}
               onChange={(e) => { setTitle(e.target.value); clearError("title"); }} className={inputCls} />
             {fieldErrors.title && <p className="text-xs text-red-500">{fieldErrors.title}</p>}
           </div>
 
           <div className="flex flex-col gap-1.5">
             <label className={labelCls}>설명</label>
-            <textarea value={description} disabled={isPending}
+            <textarea placeholder="간단한 메모나 설명을 남겨보세요" value={description} disabled={isPending}
               onChange={(e) => setDescription(e.target.value)} rows={3} className={`${inputCls} resize-none`} />
           </div>
 
           <div className="flex flex-col gap-1.5">
             <label className={labelCls}>태그</label>
-            <input type="text" value={tags} disabled={isPending}
+            <input type="text" placeholder="개발, 디자인, 참고자료" value={tags} disabled={isPending}
               onChange={(e) => setTags(e.target.value)} className={inputCls} />
             <p className="text-xs text-gray-400">쉼표(,)로 구분해서 입력하세요</p>
           </div>

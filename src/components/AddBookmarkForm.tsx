@@ -50,7 +50,7 @@ export default function AddBookmarkForm({ onAdd }: Props) {
     if (!/^https?:\/\//i.test(finalUrl)) finalUrl = "https://" + finalUrl;
     try { new URL(finalUrl); } catch { return setError("올바른 URL 형식이 아닙니다."); }
 
-    onAdd({ title: title.trim(), url: finalUrl, description: description.trim(), tags });
+    onAdd({ title: title.trim(), url: finalUrl, description: description.trim(), tags, category_id: null });
     setTitle(""); setUrl(""); setDescription(""); setTags([]); setTagInput(""); setError("");
     setOpen(false);
   }

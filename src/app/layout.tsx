@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "내 북마크",
+  title: "송이네 북마크",
   description: "나만의 북마크 매니저",
 };
 

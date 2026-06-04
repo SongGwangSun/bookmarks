@@ -79,7 +79,7 @@ export default async function DashboardPage({
         {/* 상단 헤더 */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">내 북마크</h1>
+            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">송이네 북마크</h1>
             <p className="text-sm text-gray-400 mt-0.5 truncate max-w-xs">{user.email}</p>
           </div>
           <div className="flex items-center gap-2">

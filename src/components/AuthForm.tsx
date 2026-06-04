@@ -50,7 +50,7 @@ export default function AuthForm() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <p className="text-4xl mb-2">🔖</p>
-          <h1 className="text-2xl font-bold text-gray-900">내 북마크</h1>
+          <h1 className="text-2xl font-bold text-gray-900">송이네 북마크</h1>
           <p className="text-gray-500 text-sm mt-1">
             {mode === "login" ? "로그인하여 북마크를 관리하세요" : "새 계정을 만들어보세요"}
           </p>

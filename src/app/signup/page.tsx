@@ -58,7 +58,7 @@ export default function SignupPage() {
           <div className="inline-flex items-center justify-center w-14 h-14 bg-midnight rounded-2xl mb-4 shadow-card">
             <span className="text-2xl">🔖</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">내 북마크</h1>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">송이네 북마크</h1>
           <p className="text-sm text-gray-500 mt-1">새 계정을 만들어보세요</p>
         </div>
 
